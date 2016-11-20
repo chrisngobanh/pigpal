@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+	<body>
+		<h1>{{account.nickname}}</h1>
+		<h3>{{account.type}}</h3>
+		<h3>Attached to {{savingsAccount.nickname}}</h3>
+		<h2>You have saved ${{account.savedChange}}</h2>
+
+		<a href="/account/{{account.accountId}}/disconnect">Remove account</a>
+		<a href="/overview">Back to overview</a>
+
+		<h3>Transaction History</h3>
+		<ul>
+			{% for transaction in transactionHistory %}
+				<li>
+					<h4 style="padding:0;margin-bottom:0;">+ ${{ transaction.transfer.amount }}</h4>
+					<span>${{ transaction.purchase.amount}} {{ transaction.purchase.description }}</span>
+				</li>
+			{% endfor %}
+		</ul>
+	</body>
+</html>

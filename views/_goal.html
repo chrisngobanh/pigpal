@@ -1,0 +1,242 @@
+<!doctype html>
+<html>
+	<head>
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<script>
+			$( function() {
+
+				function log( message ) {
+					$( "<div>" ).text( message ).prependTo( "#log" );
+					$( "#log" ).scrollTop( 0 );
+				}
+		    	$( "#origin" ).autocomplete({
+					source: function( request, response ) {
+						$.ajax({
+							url: "http://api.sandbox.amadeus.com/v1.2/airports/autocomplete",
+							dataType: "json",
+							data: {
+								apikey: "MKSEz7mtxAkJEkdtnQrqAG9BQ8uQXO0R",
+								term: request.term
+							},
+							success: function( data ) {
+								response( data );
+							}
+						});
+					},
+					minLength: 3,
+					select: function( event, ui ) {
+						// Do something
+					},
+					open: function() {
+						$( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+					},
+					close: function() {
+						$( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+					}
+				});
+
+		    	$( "#destination" ).autocomplete({
+					source: function( request, response ) {
+						$.ajax({
+							url: "http://api.sandbox.amadeus.com/v1.2/airports/autocomplete",
+							dataType: "json",
+							data: {
+								apikey: "MKSEz7mtxAkJEkdtnQrqAG9BQ8uQXO0R",
+								term: request.term
+							},
+							success: function( data ) {
+								response( data );
+							}
+						});
+					},
+					minLength: 3,
+					select: function( event, ui ) {
+						log( ui.item ?
+							"Selected: " + ui.item.label :
+							"Nothing selected, input was " + this.value);
+
+					},
+					open: function() {
+						$( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+					},
+					close: function() {
+						$( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+					}
+				});
+
+		    	$( "#datepicker" ).datepicker();
+
+		    	$('#find-flights').click(function(e) {
+		    		e.preventDefault();
+
+					var origin = $('#origin').val();
+					var destination = $('#destination').val();
+		    		var length = $('#length').val();
+		    		var datepicker = $('#datepicker').val();
+		    		var amount = $('#amount').val();
+
+		    		var date = new Date(datepicker);
+		    		$.ajax({
+						url: "https://api.sandbox.amadeus.com/v1.2/flights/extensive-search",
+						dataType: "json",
+						data: {
+							apikey: "MKSEz7mtxAkJEkdtnQrqAG9BQ8uQXO0R",
+							origin: origin,
+							destination: destination,
+							duration: length,
+							max_price: amount,
+							departure_date: date.getUTCFullYear() + '-' + (date.getUTCMonth() + 1) + '-' + date.getUTCDate()
+						},
+						success: function( data ) {
+							$.each(data.results, function(key, value) {
+								var txt = '($' + value.price + ') ' + (new Date(value.departure_date)).toDateString() + '-' + (new Date(value.return_date)).toDateString() + ' [' + value.airline + ']';
+						    	$('#list-of-flights')
+						        	.append($("<option></option>")
+				                    .attr("value", txt)
+				                    .text(txt));
+						});
+
+						},
+						error: function(data) {
+							console.log(data, 2222)
+						}
+					});
+		    	});
+			} );
+		</script>
+
+		<style>
+			.charity {
+				position: relative;
+				display: inline-block;
+				width: 200px;
+			}
+
+			.charity-img {
+				position: relative;
+				width: 100%;
+			}
+
+			label > input{ /* HIDE RADIO */
+			  visibility: hidden; /* Makes input not-clickable */
+			  position: absolute; /* Remove input from document flow */
+			}
+			label > input + img{ /* IMAGE STYLES */
+			  cursor:pointer;
+			  border:2px solid transparent;
+			}
+			label > input:checked + img{ /* (RADIO CHECKED) IMAGE STYLES */
+			  border:2px solid rgba(240,95,64,1);
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Congrats on completing your goal!</h1>
+		{% if goal.type == "Vacation" %}
+		<form action="/plan/vacation" method="POST">
+			<h2>Plan your trip today!</h2>
+
+			<h3>1. Find the nearest airport to you.</h3>
+			<div class="ui-widget">
+			  	<input id="origin" name="origin" placeholder="Origin">
+			</div>
+			<h3>2. Find an airport as your destination.</h3>
+			<div class="ui-widget">
+			  	<input id="destination" name="destination" placeholder="Destination">
+			</div>
+			<h3>3. How long is your trip?</h3>
+			<div class="ui-widget">
+			  	<input name="length" id="length" placeholder="Length of Trip"> Days
+			</div>
+			<h3>4. When do you want to go?</h3>
+			<div class="ui-widget">
+				<p><input type="text" name="date" id="datepicker"></p>
+			</div>
+
+			<h3>5. Choose an account to use to pay for the trip.</h3>
+			<select name="account">
+				<option>=== Choose Account ===</option>
+				{% for account in accounts %}
+					<option value="{{ account._id }}">{{ account.nickname }}</option>
+				{% endfor %}
+			</select>
+
+			<h3>6. What is your max price?</h3>
+			$<input type="text" id="amount" name="amount" value="{{ goal.amount }}">
+
+			<h3>7. Find flights</h3>
+			<button id="find-flights">Find flights</button>
+
+			<h3>8. Pick a flight</h3>
+			<select name="flights" id="list-of-flights"><option>=== Choose Flight ===</option></select>
+
+			<h3>9. Confirm your flight</h3>
+			<button>Confirm Flight</button>
+		</form>
+		{% elif goal.type == "Charity" %}
+
+		<form action="/plan/charity" method="POST">
+			<span>Great job on completing your goal to save ${{ goal.amount }} for charity. With Flying Pigs, you can...</span>
+			<h2>Start giving today!</h2>
+
+			<h3>1. Select a charity from the list</h3>
+			<div class="charity">
+				<label>
+					<input class="charity-radio" name="charity" value="Make-A-Wish" type="radio" required>
+					<img class="charity-img" src="https://pbs.twimg.com/profile_images/595633575824891905/66LgtWep.jpg">
+				</label>
+			</div>
+			<div class="charity">
+				<label>
+					<input class="charity-radio" name="charity" value="Red Cross" type="radio" required>
+					<img class="charity-img" src="https://pbs.twimg.com/profile_images/723592437495685120/0EHwBNff.jpg">
+				</label>
+			</div>
+			<div class="charity">
+				<label>
+					<input class="charity-radio" name="charity" value="ALS Association" type="radio" required>
+					<img class="charity-img" src="https://pbs.twimg.com/profile_images/776132762931568641/XXmCTL2k.jpg">
+				</label>
+			</div>
+			<div class="charity">
+				<label>
+					<input class="charity-radio" name="charity" value="St. Jude Children's Research Hospital" type="radio" required>
+					<img class="charity-img" src="https://pbs.twimg.com/profile_images/783044551543889921/BBxG0n6S_400x400.jpg">
+				</label>
+			</div>
+			<div class="charity">
+				<label>
+					<input class="charity-radio" name="charity" value="UNICEF" type="radio" required>
+					<img class="charity-img" src="https://pbs.twimg.com/profile_images/725710074421735425/rvkzkzxv.jpg">
+				</label>
+			</div>
+			<div class="charity">
+				<label>
+					<input class="charity-radio" name="charity" value="The Humane Society" type="radio" required>
+					<img class="charity-img" src="https://pbs.twimg.com/profile_images/715962506812989441/eGmCLYDu_400x400.jpg">
+				</label>
+			</div>
+			<div class="charity">
+				<label>
+					<input class="charity-radio" name="charity" value="American Cancer Society" type="radio" required>
+					<img class="charity-img" src="https://pbs.twimg.com/profile_images/727176499049144321/A7hdVvBj.jpg">
+				</label>
+			</div>
+			<h3>2. Choose a bank account that will be used to send the money.</h3>
+			<select name="account">
+				<option>=== Choose Account ===</option>
+				{% for account in accounts %}
+					<option value="{{ account._id }}">{{ account.nickname }}</option>
+				{% endfor %}
+			</select>
+			<h3>3. Choose an amount of money that you would like to donate.</h3>
+			$<input type="text" name="amount" value="{{ goal.amount }}">
+			<h3>4. Press 'Donate'!</h3>
+			<button>Donate</button>
+			<h3>It's that easy! Thank you for your philanthropy!</h3>
+		</form>
+		{% endif %}
+	</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="/ico/favicon.ico">
+
+    <title>PIGPAL - Account Info</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/account.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/overview">PIGPAL</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="active"><a href="/overview">PROFILE</a></li>
+            <li><a href="/settings">SETTINGS</a></li>
+            <li><a href="/logout">LOG OUT</a></li>
+          </ul>
+          <a href="/overview"><img src="/ico/favicon.ico" class="pigski"></a>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <h1>ACCOUNT INFORMATION</h1>
+        <h2>{{ account.nickname }}</h2>
+      </div>
+    </div>
+<div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-md-4">
+          <div class="container">
+            <p><a class="btn btn-lg btn-primary" href="/overview" role="button">&laquo; Back to Overview</a></p>
+            <h2>YOU HAVE SAVED: ${{ account.savedChange }}<br><br>INFORMATION</h2>
+            <p>{{ account.type }}<br>Saves change to <b>{{savingsAccount.nickname}}</b></p>
+
+            <br><hr><br>
+
+            <h2>TRANSACTION HISTORY</h2>
+            <p>View your recent transactions</p>
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Amount Saved</th>
+                  <th>Transaction</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for transaction in transactionHistory %}
+                <tr>
+                  <td><name="account" value="1">&nbsp;</td>
+                  <td>+${{ transaction.transfer.amount }}</td>
+                  <td>${{ transaction.purchase.amount}}</td>
+                  <td>{{ transaction.purchase.description }}</td>
+                </tr>
+              {% endfor %}
+                <tr>
+
+              </tbody>
+            </table>
+          <p><a class="btn btn-lg btn-primary" href="/overview" role="button">&laquo; Back to Overview</a>
+          <a class="btn btn-lg btn-primary pull-right" href="/account/{{account.accountId}}/disconnect" role="button">Remove Account</a></p>
+
+          </div>
+        </div>
+        </div>
+
+    <br><br><br><br><hr>
+    <footer><p><center>
+    Chris Banh, Tony Phan, Rachel Yu <br> 2016
+    </center></p></footer>
+
+    </div> <!-- /container -->
+
+
+
+
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+  </body>
+</html>

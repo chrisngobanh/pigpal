@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+	<head>
+		<style>
+			body {
+				font-family: 'Comic Sans MS';
+			}
+
+			span {
+				font-family: 'Comic Sans MS';
+			}
+
+			.animal {
+				width: 150px;
+				height: 170px;
+				/*padding: 10px;*/
+				border-radius: 10px 10px 0 0;
+				background-color: black;
+				display: inline-block;
+				position: relative;
+				margin-right: 20px;
+				font-family: "Helvetica Neue";
+
+			}
+
+			.animal > img {
+				width: 100%;
+				border-radius: 10px 10px 0 0;
+			}
+
+			.animal > span {
+				padding: 20px;
+				color: white;
+			}
+
+			.animal-radio {
+				position: absolute;
+				bottom: 10px;
+				left: 65px;
+			}
+
+		</style>
+
+		<title>Rachel's Pet Shop</title>
+		<link rel="shortcut icon" href="/ico/favicon.ico">
+	</head>
+	<body>
+		<form action="/purchase" method="POST">
+			<h1>Rachel's Pet Shop</h1>
+			<select name="payment">
+				<option>Payment Method</option>
+				{% for account in accounts %}
+					{% if account.type != 'Savings' %}
+						<option value="{{account._id}}">{{account.nickname}}</option>
+					{% endif %}
+				{% endfor %}
+			</select>
+			<br>
+			<br>
+			<div class="animal">
+				<img src="http://yourshot.nationalgeographic.com/u/ss/fQYSUbVfts-T7pS2VP2wnKyN8wxywmXtY0-Fwsgxpi9iNfDbn5MtQVvicO0q2cPznqQM805d62nZtLXJkdcA/">
+				<span>Purchase Bunny $19.85</span>
+				<input class="animal-radio" name="animal" value="Bunny" type="radio" required>
+			</div>
+			<div class="animal">
+				<img src="http://chinchilla.co/wp-content/uploads/2013/09/baby-chinchilla.jpg">
+				<span>Purchase Chinchilla $17.38</span>
+				<input class="animal-radio" name="animal" value="Chinchilla" type="radio" required>
+			</div>
+			<div class="animal">
+				<img src="http://1.bp.blogspot.com/-d1lG80BBi80/ThWzSYWQyEI/AAAAAAAAE98/ULnPW8vRfH8/s1600/web-snake-in-the-hand.jpg">
+				<span>Purchase Snek $11.03</span>
+				<input class="animal-radio" name="animal" value="Snek" type="radio" required>
+			</div>
+			<div class="animal">
+				<img src="http://www.freeindex.co.uk/media/listingpics/182/368/Fotolia_5031983_S.jpg">
+				<span>Purchase Doggo $40.72</span>
+				<input class="animal-radio" name="animal" value="Doggo" type="radio" required>
+			</div>
+
+			<button>Buy animal</button>
+		</form>
+	</body>
+</html>

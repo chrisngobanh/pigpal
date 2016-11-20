@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+	<head>
+		<style>
+			body {
+				margin: 0;
+				padding: 0;
+			}
+
+			.goal {
+				width: 100vw;
+				height: 250px;
+				background-image: url('/img/plane.jpeg');
+				background-position-x: 0px;
+				background-position-y: -500px;
+				background-repeat: no-repeat;
+				background-size: cover;
+				border-width: 0 0 4px 0;
+				border-color: #275799;
+				border-style: solid;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- <h1>Account Overview</h1> -->
+		<!-- <h2>Your Goal</h2> -->
+		<div class="goal">
+		{% if not goal.name %}
+			<a href="/setgoal"><span>Click here to set your goal!</span></a>
+		{% else %}
+			{% if (goal.progress / goal.amount) < 1 %}
+		<span>You're {{ ( (goal.progress / goal.amount * 10000) | round(0, "floor") ) / 100 }}% to your goal! (${{ goal.progress }}/${{ goal.amount  }})</span>
+			{% else %}
+				<span>You've reached your goal of ${{ goal.amount }}!</span>
+				<a href="/goal">Celebrate your achievement!</a>
+			{% endif %}
+			<br>
+			<a href="/setgoal"><span>Click here to set a new goal</span></a>
+		{% endif %}
+		</div>
+		<h2>Your authorized accounts</h2>
+		{% for account in authorizedAccounts %}
+			<a href="/account/{{ account._id }}">{{ account.nickname }} | {{ account.type }}</a>
+		{% endfor %}
+		<h2>Add more accounts</h2>
+		<form action="/addaccount" method="post">
+			<h3>Choose a Credit Card or Checkings account</h3>
+			{% for account in moreAccounts %}
+				{% if account.type != "Savings" %}
+					<input name="accountId" value="{{ account._id }}" type="radio" required>{{ account.nickname }} | {{ account.type }}<br>
+				{% endif %}
+			{% endfor %}
+			<h3>Choose a corresponding Savings account</h3>
+			{% for account in moreAccounts %}
+				{% if account.type == "Savings" %}
+					<input name="savingsAccountId" value="{{ account._id }}" type="radio" required>{{ account.nickname }} | {{ account.type }}<br>
+				{% endif %}
+			{% endfor %}
+
+			<button type="submit">Add Account</button>
+		</form>
+
+		<h4>You saved a total of <u>${{ totalSavedChange }}</u> this month!</h4>
+
+		<a href="/refresh"><button>Manually refresh</button></a>
+	</body>
+</html>

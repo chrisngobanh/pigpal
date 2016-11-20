@@ -1,0 +1,44 @@
+body {
+  padding-top: 50px;
+  padding-bottom: 10px;
+  background-color: white;
+  color: black;
+  font: 13px/18px 'Open Sans','Helvetica Neue',Arial,sans-serif;
+}
+
+.navbar {
+  background-color: rgba(240,95,64,1);
+  border-color: rgba(240,95,64,1);
+  font-weight: 700
+}
+
+.navbar brand > header-logo {
+  width:32px;
+  float: right;
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 730px;
+  }
+}
+
+.container-narrow > hr {
+  margin: 30px 0;
+}
+
+/* Main marketing message and sign up button */
+.jumbotron {
+  text-align: center;
+  background: rgba(0, 0, 0, 1);
+  color: white;
+}
+
+.jumbotron .btn {
+  padding: 14px 24px;
+  font-size: 21px;
+}
+
+.pigski{
+  padding-top: 5px;
+}

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="/ico/favicon.ico">
+
+    <title>PIGPAL - Log in / Sign Up</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/css/login.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="home.html">
+            <div id = "header-title">
+              PIGPAL
+            </div>
+          </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="home.html">HOME<span class="sr-only">(current)</span></a></li>
+            <li class="active"><a href="#">LOGIN / SIGN UP</a></li>
+          </ul>
+          <a href="/"><img src="/ico/favicon.ico" class="pigski"></a>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+    <!-- end of navbar -->
+
+    <div class="container">
+
+      <form class="form-signin" role="form">
+        <h2 class="form-signin-heading">Get ready to save</h2>
+        <input type="text" id="capital-one-id" class="form-control" placeholder="Capital One ID" required autofocus>
+        <input type="email" id="email" class="form-control" placeholder="Email address" required>
+        <input type="password" id="password" class="form-control" placeholder="Password" required>
+        <label class="checkbox">
+        <input type="checkbox" value="remember-me"> Remember me
+        </label>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" id="login-btn">Log in</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" id="signup-btn">Sign up</button>
+      </form>
+    </div> <!-- /container -->
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script>
+      $('#login-btn').click(function() {
+        var email = $('#email').val();
+        var password = $('#password').val();
+
+        $.ajax({
+          url: '/login',
+          dataType: 'json',
+          method: 'POST',
+          data: {
+            email: email,
+            password: password,
+          },
+          success: function() {
+
+          },
+        });
+      });
+
+      $('#signup-btn').click(function() {
+        var customerId = $('#capital-one-id').val();
+        var email = $('#email').val();
+        var password = $('#password').val();
+
+        $.ajax({
+          url: '/signup',
+          dataType: 'json',
+          method: 'POST',
+          data: {
+            email: email,
+            password: password,
+            customerId: customerId,
+          },
+          success: function() {
+
+          },
+        });
+      });
+
+    </script>
+  </body>
+</html>

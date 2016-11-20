@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="/ico/favicon.ico">
+
+    <title>PIGPAL - Profile</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/profile.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">PIGPAL</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="active"><a href="#">PROFILE</a></li>
+            <li><a href="/settings">SETTINGS</a></li>
+            <li><a href="/logout">LOG OUT</a></li>
+          </ul>
+          <a href="#"><img src="/ico/favicon.ico" class="pigski"></a>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <h1>
+          {% if goal.name %}
+            CURRENT GOAL PROGRESS
+          {% else %}
+            NO GOAL ACTIVE
+          {% endif %}
+        </h1>
+        <p><div class="progress">
+            <div class="progress-bar" id="progress-bar" role="progressbar" aria-valuenow="{{ goal.progress / goal.amount * 100}}" aria-valuemin="0" aria-valuemax="100" style="width: 0;">
+              ${{ goal.progress | round(2) }}
+            </div>
+          </div>
+        </p>
+        <h2>
+        {% if goal.name %}
+          {% if (goal.progress / goal.amount) < 1 %}
+            ${{ (goal.amount - goal.progress) | round(2) }} left to go!<br>
+          {% else %}
+            <a class="goal-anchor" href="/goal">You've reached your goal!</a><br>
+          {% endif %}
+        {% endif %}
+          <a class="goal-anchor" href="/setgoal">Click here to set a new goal!</a>
+        </h2>
+
+        <!-- <p><a class="btn btn-primary" role="button">Learn more &raquo;</a></p> -->
+      </div>
+    </div>
+<div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-md-4">
+          <div class="container">
+            <h2>YOUR ACHIEVEMENTS AND GOALS</h2>
+            <p>View your past, current, and future goals</p>
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Description</th>
+                  <th>Amount Saved</th>
+                  <th>Date Completed</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><name="description" value="1">&nbsp;</td>
+                  <td>New shoes</td>
+                  <td>$60.00</td>
+                  <td>10/22/15</td>
+                </tr>
+                <tr>
+                  <td><name="description" value="2">&nbsp;</td>
+                  <td>Concert</td>
+                  <td>$45.00</td>
+                  <td>2/21/16</td>
+                </tr>
+                <tr>
+                  <td><name="description" value="3">&nbsp;</td>
+                  <td>Roadtrip to Berkeley</td>
+                  <td>$100.00</td>
+                  <td>11/13/16</td>
+                </tr>
+              </tbody>
+            </table>
+
+
+            <br><hr><br>
+
+            <h2>YOUR ACCOUNTS</h2>
+            <p>View your connected bank accounts</p>
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>Account #</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for account in authorizedAccounts %}
+                <tr href="/account/{{ account._id }}" class="tr-anchor">
+                  <td>&nbsp;</td>
+                  <td>{{ account.nickname }}</td>
+                  <td>{{ account.type }}</td>
+                  <td>{{ account._id }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+
+          <div><p><a class="btn btn-default" href="/settings" role="button">Connect another bank account &raquo;</a>  <!-- <a class="btn btn-default" href="#" role="button">Delete account &raquo;</a> --></p></div>
+          <hr>
+
+
+
+          </div>
+        </div>
+        </div>
+
+
+
+
+
+    <!-- <div class="container"> -->
+      <!-- Example row of columns -->
+
+<!--         <h2>Accounts</h2>
+        <p> - list all the bank accounts and stuff herere LONG LIne of text and such and stuff and things<br>
+        - more more more</p>
+        <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+
+
+        <h2>Heading</h2>
+        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+        <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+       </div>
+      </div>
+ -->
+
+
+
+
+    <br><br><br><br><hr>
+    <footer><p><center>
+    Chris Banh, Tony Phan, Rachel Yu <br> 2016
+    </center></p></footer>
+
+    </div> <!-- /container -->
+
+
+
+
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script>
+      $('.tr-anchor').click(function(e) {
+        window.location = $(this).attr('href');
+      });
+
+      $(function(){
+        $( "#progress-bar" ).animate({
+          width: '{{ goal.progress / goal.amount * 100}}%',
+        }, { duration: 500, easing: 'linear' } );
+      });
+    </script>
+  </body>
+</html>

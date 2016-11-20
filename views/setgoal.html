@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+	<body>
+		<h1>Create your goal</h1>
+		<form action="/creategoal" method="post">
+			<span>Name of your goal </span>
+			<input type="text" name="name" placeholder="Goal Name">
+			<br>
+			<span>Amount $</span>
+			<input type="text" name="amount" placeholder="Goal Amount">
+			<br>
+			<span>Type </span>
+			<select name="type">
+				<option value="General Savings">General Savings</option>
+				<option value="Vacation">Vacation</option>
+				<option value="Holiday Gifts">Holiday Gifts</option>
+				<option value="Charity">Charity</option>
+				<option value="Other">Other</option>
+			</select>
+			<br>
+			<button>Create goal!</button>
+		</form>
+	</body>
+</html>
